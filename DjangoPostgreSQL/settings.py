@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'student',
     'rest_framework',
+    'corsheaders',
+    'jwtauth'
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True 
 
 ROOT_URLCONF = 'DjangoPostgreSQL.urls'
 
@@ -125,8 +130,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {                          
-    "DEFAULT_PERMISSION_CLASSES":
-        ["rest_framework.permissions.IsAuthenticated",],                        
-    "DEFAULT_PARSER_CLASSES":
-        ["rest_framework.parsers.JSONParser",],                    
+    "DEFAULT_PERMISSION_CLASSES":[
+        "rest_framework.permissions.IsAuthenticated",
+    ],                        
+    "DEFAULT_PARSER_CLASSES":[
+        "rest_framework.parsers.JSONParser",
+    ],  
+    "DEFAULT_AUTHENTICATION_CLASSES":[                              
+        "rest_framework.authentication.SessionAuthentication",        
+        "rest_framework_simplejwt.authentication.JWTAuthentication",  
+    ],                  
 }
